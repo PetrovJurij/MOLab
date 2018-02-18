@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Core;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GUI
 {
@@ -14,6 +13,9 @@ namespace GUI
         [STAThread]
         static void Main()
         {
+            MethodsLoader loader = new MethodsLoader(Path.GetDirectoryName(Application.ExecutablePath) + "\\methods\\");
+            var methods = loader.Load();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
