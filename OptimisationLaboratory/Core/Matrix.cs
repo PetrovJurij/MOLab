@@ -94,6 +94,23 @@ namespace Core
             return C;
         }
 
+        public static Matrix operator *(Matrix A, double b)
+        {
+           Matrix C = new Matrix(A.N, A.M);
+
+            for (int i = 0; i < A.N; i++)
+                for (int j = 0; j < A.M; j++)
+                {
+                    C[i][j] = A[i][j]*b;
+                }
+            return C;
+        }
+
+        public static Matrix operator *(double a, Matrix B)
+        {
+            return B * a;
+        }
+
         public static Matrix operator -(Matrix A)
         {
             Matrix C = new Matrix(A.N, A.M);
@@ -102,6 +119,22 @@ namespace Core
                 for(int j=0;j<A.M;j++)
                 {
                     C[i][j] = -A[i][j];
+                }
+            }
+            return C;
+        }
+
+        public static Matrix operator -(Matrix A,Matrix B)
+        {
+            if (A.N != B.N || A.M != B.M)
+                throw new ArgumentException("Матрицы должны быть одинаковых размеров");
+
+            Matrix C = new Matrix(A.N, A.M);
+            for (int i = 0; i < A.N; i++)
+            {
+                for (int j = 0; j < A.M; j++)
+                {
+                    C[i][j] = A[i][j]-B[i][j];
                 }
             }
             return C;

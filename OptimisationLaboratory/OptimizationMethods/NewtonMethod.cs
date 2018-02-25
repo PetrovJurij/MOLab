@@ -9,7 +9,7 @@ namespace OptimisationMethods
     {
         double Eps;
         Matrix x;
-        Dictionary<int, Matrix> Steps;
+        Dictionary<int, Matrix> Steps = new Dictionary<int, Matrix>();
 
         public NewtonMethod() { }
 
@@ -17,14 +17,12 @@ namespace OptimisationMethods
         {
             x = x0;
             this.Eps = Eps;
-            Steps = new Dictionary<int, Matrix>();
         }
 
         public NewtonMethod(Matrix x0)
         {
             x = x0;
             Eps = 0.001;
-            Steps = new Dictionary<int, Matrix>();
         }
 
         public Matrix Gradient()
@@ -118,30 +116,35 @@ namespace OptimisationMethods
         {
             Matrix grad = Gradient();
             Matrix hesse = Hesse();
+
             grad.Transform();
             hesse.Reverse();
+
             Matrix s = -(hesse*grad);
             int i = 0;
             Steps.Add(i, x);
+
             while (s.normEvcl()>Eps)
             {
-                
-
                 s.Transform();
                 x += s;
                 i++;
+
                 grad = Gradient();
                 hesse = Hesse();
                 grad.Transform();
                 hesse.Reverse();
+
                 s = -(hesse * grad);
+
                 Steps.Add(i, x);
             }
         }
 
         double Fun(Matrix x)
         {
-            return Math.Pow(x[0][0],2)/2+ Math.Pow(x[0][1], 2) + x[0][1]*x[0][0]-9*x[0][0]-18*x[0][1]+72;
+            return Math.Pow(x[0][0],2)/2+ Math.Pow(x[0][1], 2) + 
+                x[0][1]*x[0][0]-9*x[0][0]-18*x[0][1]+72;
         }
 
         public override string ToString()
