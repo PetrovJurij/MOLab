@@ -237,6 +237,31 @@ namespace Core
             return Mat[0][0]*NewM.Determinant();
         }
 
+        public override bool Equals(object obj)
+        {
+            Matrix B;
+            
+            try
+            {
+                B = (Matrix)obj;
+            }catch(InvalidCastException ex)
+            {
+                return false;
+            }
+            
+            if(N!=B.N||M!=B.M)
+                return false;
+
+            for(int i=0;i<N;i++)
+                for(int j=0;j<M;j++)
+                {
+                    if (Mat[i][j] != B[i][j])
+                        return false;
+                }
+
+            return true;
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
