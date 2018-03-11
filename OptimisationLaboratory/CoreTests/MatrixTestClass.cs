@@ -5,7 +5,7 @@ using System;
 namespace CoreTests
 {
     [TestClass]
-    class MatrixTestClass
+    public class MatrixTestClass
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
