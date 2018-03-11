@@ -118,9 +118,8 @@ namespace OptimisationMethods
             Matrix hesse = Hesse();
 
             grad.Transform();
-            hesse.Reverse();
 
-            Matrix s = -(hesse*grad);
+            Matrix s = -(hesse.Reverse()*grad);
             int i = 0;
             Steps.Add(i, x);
 
@@ -133,9 +132,8 @@ namespace OptimisationMethods
                 grad = Gradient();
                 hesse = Hesse();
                 grad.Transform();
-                hesse.Reverse();
 
-                s = -(hesse * grad);
+                s = -(hesse.Reverse() * grad);
 
                 Steps.Add(i, x);
             }

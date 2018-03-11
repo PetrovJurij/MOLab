@@ -151,16 +151,21 @@ namespace Core
             return C;
         }
 
+        public static Matrix operator/(Matrix A,Matrix B)
+        {
+            return A * B.Reverse();
+        }
 
         public int N { get { return n; } set { if (value > 0) n = value; } }
         public int M { get { return m; } set { if (value > 0) m = value; } }
 
-        public void Reverse()
+        public Matrix Reverse()
         {
             if (N != M)
                 throw new InvalidOperationException();
 
             Matrix ReverseM = new Matrix(N,M);
+            Matrix Temp = (Matrix)Clone();
 
             for (int i = 0; i < N; i++)
             {
@@ -168,12 +173,14 @@ namespace Core
 
                 for (int j=0;j<M;j++)
                 {
-                    Mat[i][j] /= a1;
+                    Temp[i][j] /= a1;
 
                     for (int l=0;l<M;l++)
                         ReverseM.Mat[i][j]/=a1;
                 }
-            }            
+            }
+
+            return ReverseM;
         }
 
         public void Transform()

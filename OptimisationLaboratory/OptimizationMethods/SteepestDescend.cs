@@ -42,9 +42,7 @@ namespace OptimizationMethods
                     SAM = new StepAdaptationMethod(x,g,0.01);
                 }
                 SAM.Start();
-                g.Reverse();
-                Matrix r = (x-SAM.LastStep)*g;
-                g.Reverse();
+                Matrix r = (x-SAM.LastStep)*g.Reverse();
                 try
                 {
                     s = -r * g;
