@@ -156,29 +156,80 @@ namespace Core
             return A * B.Reverse();
         }
 
+        public static Matrix operator /(Matrix A, double b)
+        {
+            return (1/b)*A;
+        }
+
+        public static Matrix operator /(double a, Matrix B)
+        {
+            return a*B.Reverse();
+        }
+
         public int N { get { return n; } set { if (value > 0) n = value; } }
         public int M { get { return m; } set { if (value > 0) m = value; } }
 
         public Matrix Reverse()
         {
             if (N != M)
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Матрица должна быть квадратной.");
 
             Matrix ReverseM = new Matrix(N,M);
-            Matrix Temp = (Matrix)Clone();
+            Matrix Minor = new Matrix(N, M);
+
+            double det = Determinant();
+            if (det == 0)
+                throw new InvalidOperationException("Детерминант должен быть не равным нулю.");
+
 
             for (int i = 0; i < N; i++)
             {
-                double a1 = Mat[i][i];
-
-                for (int j=0;j<M;j++)
+                for (int j = 0; j < M; j++)
                 {
-                    Temp[i][j] /= a1;
+                    Matrix TempMinMatr = new Matrix(N - 1, M - 1);
 
-                    for (int l=0;l<M;l++)
-                        ReverseM.Mat[i][j]/=a1;
+                    for(int l=0;l<N;l++)
+                    {
+                        if (l != i)
+                        {
+                            for (int k = 0; k < M; k++)
+                            {
+                                if (k != j)
+                                {
+                                    if(l<i)
+                                    {
+                                        if(k<j)
+                                        {
+                                            TempMinMatr[l][k] = Mat[l][k];
+                                        }
+                                        else
+                                        {
+                                            TempMinMatr[l][k - 1] = Mat[l][k];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (k < j)
+                                        {
+                                            TempMinMatr[l-1][k] = Mat[l][k];
+                                        }
+                                        else
+                                        {
+                                            TempMinMatr[l-1][k - 1] = Mat[l][k];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Minor[i][j] = (i+j)%2==1?-TempMinMatr.Determinant():TempMinMatr.Determinant();
                 }
             }
+
+            Minor.Transform();
+            ReverseM = Minor / det;
+
 
             return ReverseM;
         }

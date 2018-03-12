@@ -22,6 +22,8 @@ namespace GUI
             Matr2.Columns.Add("Column0", "0");
             Matr2.Rows.Add();
 
+            
+
             FillDataGrids();
         }
 
@@ -42,6 +44,8 @@ namespace GUI
                     Matr2.Rows[i].Cells[j].Value = Matrix2[i][j];
                 }
             }
+            Matr1.AutoResizeColumns();
+            Matr2.AutoResizeColumns();
         }
 
         private void Matr1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -349,6 +353,80 @@ namespace GUI
             }
         }
 
-        
+        private void Matr1TransButton_Click(object sender, EventArgs e)
+        {
+            Matrix1.Transform();
+
+            while (Matr1.Columns.Count > Matrix1.N)
+            {
+                Matr1.Columns.RemoveAt(Matr1.Columns.Count - 1);
+            }
+            while (Matr1.Columns.Count < Matrix1.N)
+            {
+                Matr1.Columns.Add("Column" + Matr1.Columns.Count, (Matr1.Columns.Count).ToString());
+            }
+
+
+            while (Matr1.Rows.Count > Matrix1.M)
+            {
+                Matr1.Rows.RemoveAt(Matr1.Rows.Count - 1);
+            }
+            while (Matr1.Rows.Count < Matrix1.M)
+            {
+                Matr1.Rows.Add();
+            }
+
+            FillDataGrids();
+        }
+
+        private void Matr2TransButton_Click(object sender, EventArgs e)
+        {
+            Matrix2.Transform();
+
+            while (Matr2.Columns.Count > Matrix1.N)
+            {
+                Matr2.Columns.RemoveAt(Matr2.Columns.Count - 1);
+            }
+            while (Matr2.Columns.Count < Matrix1.N)
+            {
+                Matr2.Columns.Add("Column" + Matr2.Columns.Count, (Matr2.Columns.Count).ToString());
+            }
+
+
+            while (Matr2.Rows.Count > Matrix2.M)
+            {
+                Matr2.Rows.RemoveAt(Matr2.Rows.Count - 1);
+            }
+            while (Matr2.Rows.Count < Matrix2.M)
+            {
+                Matr2.Rows.Add();
+            }
+
+            FillDataGrids();
+        }
+
+        private void Matr1EuclNormButton_Click(object sender, EventArgs e)
+        {
+            Matr1EuclidNormResultLabel.Text = Matrix1.normEvcl().ToString();
+        }
+
+        private void Matr2EuclNormButton_Click(object sender, EventArgs e)
+        {
+            Matr2EuclidNormResultLabel.Text = Matrix2.normEvcl().ToString();
+        }
+
+        private void Matr1ReverseButton_Click(object sender, EventArgs e)
+        {
+            Matrix1 = Matrix1.Reverse();
+
+            FillDataGrids();
+        }
+
+        private void Matr2ReverseButton_Click(object sender, EventArgs e)
+        {
+            Matrix2 = Matrix2.Reverse();
+
+            FillDataGrids();
+        }
     }
 }
