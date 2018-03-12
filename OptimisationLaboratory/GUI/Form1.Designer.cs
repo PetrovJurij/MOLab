@@ -50,7 +50,7 @@
             this.Matr2ReverseButton = new System.Windows.Forms.Button();
             this.Matr2TransButton = new System.Windows.Forms.Button();
             this.Matr1EuclidNormResultLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.Matr2EuclidNormResultLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Matr1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Matr2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AnswerMatr)).BeginInit();
@@ -274,20 +274,20 @@
             this.Matr1EuclidNormResultLabel.TabIndex = 23;
             this.Matr1EuclidNormResultLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // Matr2EuclidNormResultLabel
             // 
-            this.label5.Location = new System.Drawing.Point(585, 135);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(75, 16);
-            this.label5.TabIndex = 24;
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Matr2EuclidNormResultLabel.Location = new System.Drawing.Point(585, 135);
+            this.Matr2EuclidNormResultLabel.Name = "Matr2EuclidNormResultLabel";
+            this.Matr2EuclidNormResultLabel.Size = new System.Drawing.Size(75, 16);
+            this.Matr2EuclidNormResultLabel.TabIndex = 24;
+            this.Matr2EuclidNormResultLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(675, 399);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.Matr2EuclidNormResultLabel);
             this.Controls.Add(this.Matr1EuclidNormResultLabel);
             this.Controls.Add(this.Matr2EuclNormButton);
             this.Controls.Add(this.Matr2ReverseButton);
@@ -345,7 +345,7 @@
         private System.Windows.Forms.Button Matr2ReverseButton;
         private System.Windows.Forms.Button Matr2TransButton;
         private System.Windows.Forms.Label Matr1EuclidNormResultLabel;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label Matr2EuclidNormResultLabel;
     }
 }
 
