@@ -32,5 +32,14 @@ namespace CoreTests
             Assert.AreEqual(C,A*B);
         }
 
+        [TestMethod]
+        public void MatrixDeterminantCalculationTest()
+        {
+            Matrix A = new Matrix(new double[,] { { 1, 2, 3 },
+                                                  { 4, 5, 6 },
+                                                  { 7, 8, 9 } });
+
+            Assert.AreEqual(0, A.Determinant());
+        }
     }
 }
