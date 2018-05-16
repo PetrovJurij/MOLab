@@ -11,6 +11,8 @@ namespace Core
         private double[] vec;
         private int n;
 
+        public bool IsColumn { get; set; }
+
         public Vector()
         { n = 0; }
 
@@ -47,7 +49,6 @@ namespace Core
         {
             get { return vec[index]; }
         }
-
 
 
     }
