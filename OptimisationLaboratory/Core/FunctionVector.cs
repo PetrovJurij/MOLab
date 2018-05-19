@@ -8,6 +8,19 @@ namespace Core
     {
         Func<Matrix,double>[] functions;
 
+        public FunctionVector(FunctionVector funcs)
+        {
+            functions = new Func<Matrix, double>[funcs.Count];
+
+            for (int i = 0; i < funcs.Count; i++)
+            {
+                functions[i] = (Func<Matrix, double>)Delegate.CreateDelegate
+                    (typeof(Func<Matrix, double>), funcs[i].Target, funcs[i].Method);
+            }
+
+            Count = funcs.Count;
+        }
+
         public FunctionVector(functionsMask[] funcs)
         {
             functions = new Func<Matrix, double>[funcs.Length];
@@ -34,9 +47,9 @@ namespace Core
             Count = funcs.Length;
         }
 
-        public double[] ExecuteFunctions(Matrix x)
+        public Vector ExecuteFunctions(Matrix x)
         {
-            double[] res = new double[functions.Length];
+            Vector res = new PenaltyVector(functions.Length);
 
             OutOfDefinitionRangeException ex = new OutOfDefinitionRangeException();
 

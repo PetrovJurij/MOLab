@@ -10,19 +10,22 @@ namespace OptimizationMethods
         double Eps;
         Matrix x;
         Dictionary<int, Matrix> Steps=new Dictionary<int, Matrix>();
+        FunctionVector functions;
         
         public SteepestDescend(){ }
 
-        public SteepestDescend(Matrix x0)
+        public SteepestDescend(Matrix x0,FunctionVector func)
         {
             x = x0;
             Eps = 0.001;
+            functions = new FunctionVector(func);
         }
 
-        public SteepestDescend(Matrix x0, double Eps)
+        public SteepestDescend(Matrix x0, double Eps,FunctionVector func)
         {
             x = x0;
             this.Eps = Eps;
+            functions = new FunctionVector(func);
         }
 
         public void Start()
@@ -35,11 +38,11 @@ namespace OptimizationMethods
                 g = Gradient();
                 try
                 {
-                    SAM = new StepAdaptationMethod(x, g, 0.01);
+                    SAM = new StepAdaptationMethod(x, g, 0.01,functions);
                 }catch(ArgumentException)
                 {
                     g.Transform();
-                    SAM = new StepAdaptationMethod(x,g,0.01);
+                    SAM = new StepAdaptationMethod(x,g,0.01,functions);
                 }
                 SAM.Start();
                 Matrix r = (x-SAM.LastStep)*g.Reverse();

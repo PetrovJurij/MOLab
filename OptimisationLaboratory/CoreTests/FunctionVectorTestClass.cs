@@ -38,7 +38,7 @@ namespace CoreTests
             }
 
             FunctionVector functionVector = new FunctionVector(f);
-            double[] res = functionVector.ExecuteFunctions(arg);
+            Vector res = functionVector.ExecuteFunctions(arg);
 
             for(int i=0;i<f.Length;i++)
                 Assert.AreEqual(res[i], i);

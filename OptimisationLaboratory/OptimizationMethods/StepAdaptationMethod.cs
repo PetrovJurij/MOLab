@@ -13,10 +13,11 @@ namespace OptimizationMethods
         Dictionary<int, Matrix> Steps = new Dictionary<int, Matrix>();
         public Matrix LastStep;
         public double Distance;
+        private FunctionVector functions;
 
         public StepAdaptationMethod(){  }
 
-        public StepAdaptationMethod(Matrix x0)
+        public StepAdaptationMethod(Matrix x0,FunctionVector func)
         {
             x = x0;
             int len = x.M == 1 ? x.N : x.M;
@@ -25,9 +26,11 @@ namespace OptimizationMethods
             {
                 h[0][i] = 4;
             }
+
+            functions = new FunctionVector(func);
         }
 
-        public StepAdaptationMethod(Matrix x0,Matrix h,double Eps)
+        public StepAdaptationMethod(Matrix x0,Matrix h,double Eps, FunctionVector func)
         {
             x = x0;
 
@@ -66,6 +69,8 @@ namespace OptimizationMethods
                     throw new ArgumentException("Шаг должен быть не нулевым.");
             }
             this.h = (Matrix)h.Clone();
+
+            functions = new FunctionVector(func);
         }
 
         public void Start()
@@ -79,8 +84,10 @@ namespace OptimizationMethods
                 Steps.Add(i, x);
                 h0 = h;
                 Matrix y = x + h0;
-                double f = Fun(x);
-                double g = Fun(y);
+
+                Vector f = new PenaltyVector(functions.ExecuteFunctions(x));
+                Vector g = new PenaltyVector(functions.ExecuteFunctions(y));
+                
 
                 if(g<f)
                 {
@@ -94,7 +101,7 @@ namespace OptimizationMethods
                 if(g<f&&r<0.5)
                         r = 0.5;
 
-                if (g >= f && r == 2)
+                if (g < f && r == 2)
                     r = 0.25;
                 else
                     r = -0.5;
@@ -109,7 +116,7 @@ namespace OptimizationMethods
             {
                 for (int j = 0; j < x.N; j++)
                 {
-                    Distance += Math.Pow(x[i][0] - Steps[0][i][0], 2);
+                    Distance +=(x[i][0] - Steps[0][i][0])*(x[i][0] - Steps[0][i][0]);
                 }
                 Distance = Math.Sqrt(Distance);
             }
@@ -117,16 +124,12 @@ namespace OptimizationMethods
             {
                 for (int j = 0; j < x.M; j++)
                 {
-                    Distance += Math.Pow(x[0][i] - Steps[0][0][i], 2);
+                    Distance += (x[0][i] - Steps[0][0][i])*(x[0][i] - Steps[0][0][i]);
                 }
                 Distance = Math.Sqrt(Distance);
             }
-        }
 
-        double Fun(Matrix x)
-        {
-            return Math.Pow(x[0][0], 2) / 2 + Math.Pow(x[0][1], 2) +
-                x[0][1] * x[0][0] - 9 * x[0][0] - 18 * x[0][1] + 72;
+
         }
 
         public override string ToString()
@@ -143,9 +146,14 @@ namespace OptimizationMethods
                     sb.Append(" ");
                 }
 
-                sb.Append("\t");
-                sb.Append(Fun(step.Value));
-                sb.Append("\n");
+                Vector res = functions.ExecuteFunctions(step.Value);
+                for(int i=0;i<res.Length;i++)
+                {
+                    sb.Append("\t");
+                    sb.Append(res[i]);
+                    sb.Append("\t");
+                }
+                
             }
 
             return sb.ToString();

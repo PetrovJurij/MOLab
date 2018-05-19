@@ -52,6 +52,7 @@
     <Compile Include="MatrixTestClass.cs" />
     <Compile Include="MethodLoaderTestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VectorsTestClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
