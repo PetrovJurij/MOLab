@@ -92,7 +92,20 @@ namespace Core
             return false;
         }
 
-        public double Magnitude()
+        public static double operator -(Vector a, Vector b)
+        {
+            if (a.Length != b.Length)
+                throw new ArgumentException("Vectors must be one size.");
+            if (a.IsColumn != b.IsColumn)
+                throw new ArgumentException("Both vectors must be either columns or rows.");
+            for (int i = 0; i < a.Length; i++)
+                if (a[i] != b[i])
+                    return a[i] - b[i];
+
+            return a[a.Length] - b[b.Length];
+        }
+
+            public double Magnitude()
         {
             double res=0;
             for(int i=0;i<Length;i++)

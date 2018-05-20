@@ -13,14 +13,12 @@ namespace OptimizationMethods
         FunctionVector functions;
         
         public SteepestDescend(){ }
-
         public SteepestDescend(Matrix x0,FunctionVector func)
         {
             x = x0;
             Eps = 0.001;
             functions = new FunctionVector(func);
         }
-
         public SteepestDescend(Matrix x0, double Eps,FunctionVector func)
         {
             x = x0;
@@ -71,23 +69,21 @@ namespace OptimizationMethods
             {
                 Matrix temp1 = new Matrix(x);
                 Matrix temp2 = new Matrix(x);
+                
+
                 for (int j = 0; j < x.M; j++)
                 {
                     temp1[i][j] += 0.000001;
                     temp2[i][j] -= 0.000001;
-                    res[i][j] = (Fun(temp1) - Fun(temp2)) / 0.000002;
+                    Vector vec1 = new PenaltyVector(functions.ExecuteFunctions(temp1));
+                    Vector vec2 = new PenaltyVector(functions.ExecuteFunctions(temp2));
+                    res[i][j] = (vec1 - vec2) / 0.000002;
                     temp1[i][j] -= 0.000001;
                     temp2[i][j] += 0.000001;
                 }
             }
 
             return res;
-        }
-
-        double Fun(Matrix x)
-        {
-            return Math.Pow(x[0][0], 2) / 2 + Math.Pow(x[0][1], 2) + 
-                x[0][1] * x[0][0] - 9 * x[0][0] - 18 * x[0][1] + 72;
         }
 
         public override string ToString()
@@ -104,9 +100,13 @@ namespace OptimizationMethods
                     sb.Append(" ");
                 }
 
-                sb.Append("\t");
-                sb.Append(Fun(step.Value));
-                sb.Append("\n");
+                Vector res = functions.ExecuteFunctions(step.Value);
+                for (int i = 0; i < res.Length; i++)
+                {
+                    sb.Append("\t");
+                    sb.Append(res[i]);
+                    sb.Append("\t");
+                }
             }
 
             return sb.ToString();

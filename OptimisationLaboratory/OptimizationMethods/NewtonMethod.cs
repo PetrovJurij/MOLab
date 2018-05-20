@@ -12,13 +12,11 @@ namespace OptimisationMethods
         Dictionary<int, Matrix> Steps = new Dictionary<int, Matrix>();
 
         public NewtonMethod() { }
-
         public NewtonMethod(Matrix x0, double Eps)
         {
             x = x0;
             this.Eps = Eps;
         }
-
         public NewtonMethod(Matrix x0)
         {
             x = x0;
@@ -45,7 +43,6 @@ namespace OptimisationMethods
 
             return res;
         }
-
         public Matrix Hesse()
         {
             int n = x.M == 1 ? x.N : x.M;
@@ -165,12 +162,6 @@ namespace OptimisationMethods
             }
 
             return sb.ToString();
-        }
-
-
-        public void PlotSurfaces()
-        {
-            
         }
 
     }
