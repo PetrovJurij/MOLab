@@ -54,6 +54,32 @@ namespace Core
             }
         }
 
+        public Matrix(Vector v)
+        {
+            if(v.IsColumn)
+            {
+                N = 1;
+                M = v.Length;
+                Mat = new double[N][];
+                Mat[0] = new double[M];
+                for(int i=0;i<M;i++)
+                {
+                    Mat[0][i] = v[i];
+                }
+            }
+            else
+            {
+                M = 1;
+                N = v.Length;
+                Mat = new double[N][];
+                Mat[0] = new double[M];
+                for (int i = 0; i < N; i++)
+                {
+                    Mat[i][0] = v[i];
+                }
+            }
+        }
+
 
         public Matrix(Matrix M)
         {

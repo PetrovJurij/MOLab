@@ -47,9 +47,9 @@ namespace Core
             Count = funcs.Length;
         }
 
-        public Vector ExecuteFunctions(Matrix x)
+        public PenaltyVector ExecuteFunctions(Matrix x)
         {
-            Vector res = new PenaltyVector(functions.Length);
+            PenaltyVector res = new PenaltyVector(functions.Length);
 
             OutOfDefinitionRangeException ex = new OutOfDefinitionRangeException();
 
@@ -58,6 +58,8 @@ namespace Core
                 try
                 {
                     res[i] = functions[i](x);
+                    if (res[i] < 0)
+                        res[i] = 0;
                 }
                 catch (Exception e)
                 {

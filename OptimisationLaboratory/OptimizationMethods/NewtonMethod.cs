@@ -10,17 +10,20 @@ namespace OptimisationMethods
         double Eps;
         Matrix x;
         Dictionary<int, Matrix> Steps = new Dictionary<int, Matrix>();
+        FunctionVector functions;
 
         public NewtonMethod() { }
-        public NewtonMethod(Matrix x0, double Eps)
-        {
-            x = x0;
-            this.Eps = Eps;
-        }
-        public NewtonMethod(Matrix x0)
+        public NewtonMethod(Matrix x0,FunctionVector func)
         {
             x = x0;
             Eps = 0.001;
+            functions = new FunctionVector(func);
+        }
+        public NewtonMethod(Matrix x0, double Eps, FunctionVector func)
+        {
+            x = x0;
+            this.Eps = Eps;
+            functions = new FunctionVector(func);
         }
 
         public Matrix Gradient()
@@ -31,11 +34,16 @@ namespace OptimisationMethods
             {
                 Matrix temp1 = new Matrix(x);
                 Matrix temp2 = new Matrix(x);
+                PenaltyVector funT1;
+                PenaltyVector funT2;
+
                 for (int j=0;j<x.M;j++)
                 {
                     temp1[i][j] += 0.000001;
                     temp2[i][j] -= 0.000001;
-                    res[i][j] = (Fun(temp1)-Fun(temp2))/0.000002;
+                    funT1 = functions.ExecuteFunctions(temp1);
+                    funT2 = functions.ExecuteFunctions(temp2);
+                    res[i][j] = (funT1-funT2)/0.000002;
                     temp1[i][j] -= 0.000001;
                     temp2[i][j] += 0.000001;
                 }
@@ -55,8 +63,12 @@ namespace OptimisationMethods
                 Matrix temp1 = new Matrix(x);
                 Matrix temp2 = new Matrix(x);
                 Matrix temp3 = new Matrix(x);
+                PenaltyVector funT1;
+                PenaltyVector funT2;
+                PenaltyVector funT3;
+                PenaltyVector funX;
 
-                for(int j=0;j<n;j++)
+                for (int j=0;j<n;j++)
                 {
                     if(row)
                     {
@@ -78,10 +90,22 @@ namespace OptimisationMethods
                         temp3[0][i] += 0.00001;
                         temp3[0][j] += 0.00001;
                     }
+
                     if (i == j)
-                        res[i][j] = (Fun(temp1) - 2*Fun(x) + Fun(temp2)) / Math.Pow(0.00001, 2);
+                    {
+                        funT1 = functions.ExecuteFunctions(temp1);
+                        funT2 = functions.ExecuteFunctions(temp2);
+                        funX = functions.ExecuteFunctions(x);
+                        res[i][j] =( (funT1 - funX) - (funX-funT2)) / Math.Pow(0.00001, 2);
+                    }
                     else
-                        res[i][j] = (Fun(temp3) - Fun(temp2) - Fun(temp1) + Fun(x)) / Math.Pow(0.00001, 2);
+                    {
+                        funT1 = functions.ExecuteFunctions(temp1);
+                        funT2 = functions.ExecuteFunctions(temp2);
+                        funT3 = functions.ExecuteFunctions(temp3);
+                        funX = functions.ExecuteFunctions(x);
+                        res[i][j] = ((funT3 - funT2) - (funT1 - funX)) / Math.Pow(0.00001, 2);
+                    }
 
                     if (row)
                     {
@@ -136,29 +160,28 @@ namespace OptimisationMethods
             }
         }
 
-        double Fun(Matrix x)
-        {
-            return Math.Pow(x[0][0],2)/2+ Math.Pow(x[0][1], 2) + 
-                x[0][1]*x[0][0]-9*x[0][0]-18*x[0][1]+72;
-        }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("Newton method\n");
             sb.Append("Step\tx\t\tfx\n");
-            foreach(var step in Steps)
+            foreach (var step in Steps)
             {
-                sb.Append(step.Key+"\t");
+                sb.Append(step.Key + "\t");
                 for (int i = 0; i < step.Value.M; i++)
                 {
                     sb.Append(step.Value[0][i]);
                     sb.Append(" ");
                 }
 
-                sb.Append("\t");
-                sb.Append(Fun(step.Value));
-                sb.Append("\n");
+                Vector res = functions.ExecuteFunctions(step.Value);
+                for (int i = 0; i < res.Length; i++)
+                {
+                    sb.Append("\t");
+                    sb.Append(res[i]);
+                    sb.Append("\t");
+                }
             }
 
             return sb.ToString();

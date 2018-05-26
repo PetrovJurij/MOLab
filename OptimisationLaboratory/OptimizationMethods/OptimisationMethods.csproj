@@ -40,11 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Huk-Djivs.cs" />
+    <Compile Include="Huk-DjivsMethod.cs" />
+    <Compile Include="DIPMethod.cs" />
     <Compile Include="NewtonMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SteepestDescend.cs" />
+    <Compile Include="SquereInterpolationMethod.cs" />
+    <Compile Include="SteepestDescendMethod.cs" />
     <Compile Include="StepAdaptationMethod.cs" />
+    <Compile Include="SvenMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

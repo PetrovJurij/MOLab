@@ -5,21 +5,21 @@ using System.Text;
 
 namespace OptimizationMethods
 {
-    public class SteepestDescend:IOptimisationMethod
+    public class SteepestDescendMethod:IOptimisationMethod
     {
         double Eps;
         Matrix x;
         Dictionary<int, Matrix> Steps=new Dictionary<int, Matrix>();
         FunctionVector functions;
         
-        public SteepestDescend(){ }
-        public SteepestDescend(Matrix x0,FunctionVector func)
+        public SteepestDescendMethod(){ }
+        public SteepestDescendMethod(Matrix x0,FunctionVector func)
         {
             x = x0;
             Eps = 0.001;
             functions = new FunctionVector(func);
         }
-        public SteepestDescend(Matrix x0, double Eps,FunctionVector func)
+        public SteepestDescendMethod(Matrix x0, double Eps,FunctionVector func)
         {
             x = x0;
             this.Eps = Eps;
@@ -75,8 +75,8 @@ namespace OptimizationMethods
                 {
                     temp1[i][j] += 0.000001;
                     temp2[i][j] -= 0.000001;
-                    Vector vec1 = new PenaltyVector(functions.ExecuteFunctions(temp1));
-                    Vector vec2 = new PenaltyVector(functions.ExecuteFunctions(temp2));
+                    PenaltyVector vec1 = new PenaltyVector(functions.ExecuteFunctions(temp1));
+                    PenaltyVector vec2 = new PenaltyVector(functions.ExecuteFunctions(temp2));
                     res[i][j] = (vec1 - vec2) / 0.000002;
                     temp1[i][j] -= 0.000001;
                     temp2[i][j] += 0.000001;

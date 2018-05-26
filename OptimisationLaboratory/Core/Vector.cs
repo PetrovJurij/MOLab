@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public abstract class Vector
+    public class Vector
     {
         private double[] vec;
         private int n;
@@ -105,7 +105,7 @@ namespace Core
             return a[a.Length] - b[b.Length];
         }
 
-            public double Magnitude()
+        public double Magnitude()
         {
             double res=0;
             for(int i=0;i<Length;i++)

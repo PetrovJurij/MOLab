@@ -4,20 +4,20 @@ using Core;
 
 namespace OptimizationMethods
 {
-    public class Huk_Djivs:IOptimisationMethod
+    public class Huk_DjivsMethod:IOptimisationMethod
     {
         double eps;
         Matrix x;
         Dictionary<int, Matrix> Steps = new Dictionary<int, Matrix>();
         FunctionVector functions;
 
-        public Huk_Djivs(){ }
-        public Huk_Djivs(Matrix x0,FunctionVector func)
+        public Huk_DjivsMethod(){ }
+        public Huk_DjivsMethod(Matrix x0,FunctionVector func)
         {
             x = x0;
             functions = new FunctionVector(func);
         }
-        public Huk_Djivs(Matrix x0,double eps,FunctionVector func)
+        public Huk_DjivsMethod(Matrix x0,double eps,FunctionVector func)
         {
             x = x0;
             this.eps = eps;
@@ -26,26 +26,29 @@ namespace OptimizationMethods
 
         public void Start()
         {
-            Vector fx = new PenaltyVector(functions.ExecuteFunctions(x));
+            PenaltyVector fx = new PenaltyVector(functions.ExecuteFunctions(x));
             
             double sigma = 2;
+            int i = 0;
 
             while(sigma>=eps)
             {
+                i++;
                 sigma = sigma / 2;
                 Matrix y = IterationSearch(x, sigma);
-                Vector fy = new PenaltyVector(functions.ExecuteFunctions(y));
+                PenaltyVector fy = new PenaltyVector(functions.ExecuteFunctions(y));
 
                 while (fx<fy)
                 {
                     Matrix z = (Matrix)((2 * y - x).Clone());
-                    Vector fz = new PenaltyVector(functions.ExecuteFunctions(z));
+                    PenaltyVector fz = new PenaltyVector(functions.ExecuteFunctions(z));
                     x = y;
                     fx = fy;
                     y = IterationSearch(z, sigma);
                     fy = new PenaltyVector(functions.ExecuteFunctions(y));
                 }
 
+                Steps.Add(i,y);
             }
         }
 
@@ -54,8 +57,8 @@ namespace OptimizationMethods
             int n = x.N;
             Matrix y = (Matrix)x.Clone();
             Matrix u = (Matrix)x.Clone();
-            Vector fy = new PenaltyVector(functions.ExecuteFunctions(y));
-            Vector fu = new PenaltyVector(functions.ExecuteFunctions(u));
+            PenaltyVector fy = new PenaltyVector(functions.ExecuteFunctions(y));
+            PenaltyVector fu = new PenaltyVector(functions.ExecuteFunctions(u));
 
             for(int i=0;i<n;i++)
             {
