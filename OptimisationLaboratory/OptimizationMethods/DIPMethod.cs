@@ -7,7 +7,7 @@ using Core;
 
 namespace OptimizationMethods
 {
-    class DIPMethod
+    class DIPMethod:IOptimisationMethod
     {
         double eps;
         Matrix a;

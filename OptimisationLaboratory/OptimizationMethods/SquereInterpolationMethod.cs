@@ -7,7 +7,7 @@ using Core;
 
 namespace OptimizationMethods
 {
-    class SquereInterpolationMethod
+    class SquereInterpolationMethod:IOptimisationMethod
     {
         double eps;
         Matrix a, b, U;
