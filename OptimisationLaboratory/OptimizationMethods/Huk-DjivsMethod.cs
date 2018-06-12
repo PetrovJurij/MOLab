@@ -67,7 +67,7 @@ namespace OptimizationMethods
                 if(fu<fy)
                 {
                     y[0][i] = u[0][i];
-                    fy = new PenaltyVector(functions.ExecuteFunctions(y));
+                    fy = (PenaltyVector)fu.Clone();
                     continue;
                 }
                 u[0][i] = y[0][i] - sigma;
@@ -75,11 +75,12 @@ namespace OptimizationMethods
                 if(fu<fy)
                 {
                     y[0][i] = u[0][i];
-                    fy = new PenaltyVector(functions.ExecuteFunctions(y));
+                    fy = (PenaltyVector)fu.Clone();
                 }
                 else
                 {
                     u[0][i] = y[0][i];
+                    fu = (PenaltyVector)fy.Clone();
                 }
             }
 

@@ -115,5 +115,11 @@ namespace Core
             res = Math.Sqrt(res);
             return res;
         }
+
+        public object Clone()
+        {
+            Vector vec=new Vector(this);
+            return vec;
+        }
     }
 }
